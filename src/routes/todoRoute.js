@@ -12,14 +12,15 @@ const todosHandler = async (request, h) => {
 
 const createTodoHandler = async (request, h) => {
     try {
-        const { titleReq, descriptionReq, userIdReq, completedReq, dateReq } = request.payload
+        const { titleReq, descriptionReq, userIdReq, completedReq, emailReq, dateReq } = request.payload
         console.log(request.payload);
         const todo = await Models.Todos.create({
             title: titleReq,
             desciption: descriptionReq,
             userId: userIdReq,
+            email: emailReq,
             completed: completedReq,
-            dateActivity: dateReq
+            dateActivity: dateReq,
         })
         return {
             data: todo,
@@ -36,11 +37,12 @@ const createTodoHandler = async (request, h) => {
 const updateTodoHandler = async (request, h) => {
     try {
         const todo_id = request.params.id;
-        const { titleReq, descriptionReq, completedReq } =
+        const { titleReq, descriptionReq, emailReq, completedReq } =
             request.payload;
         const todo = await Models.Todos.update({
             title: titleReq,
             desciption: descriptionReq,
+            email: emailReq,
             completed: completedReq,
         }, {
             where: {
@@ -94,6 +96,7 @@ module.exports = [
                     userIdReq: Joi.number().min(1).required(),
                     completedReq: Joi.number().min(0).max(1).required(),
                     dateReq: Joi.date().required(),
+                    emailReq: Joi.string().email(),
                 }
             }
         },
