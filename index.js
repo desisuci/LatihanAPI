@@ -44,7 +44,21 @@ server.route([
             let panjangRequest = request.payload.panjang; //konversi string ke number
             let lebarRequest = request.payload.lebar;
             let hasil = parseInt(panjangRequest) * parseInt(lebarRequest)//bikin variabel penampung nilai luas
-            const data = { data: 'rumus persegi', ...request.payload, hasilPerhitungan: hasil }
+            let statusCode = 200
+            const contentData = {
+                data: "Hitung Luas Segitiga",
+                panjang: panjangRequest,
+                lebar: lebarRequest,
+                hasilPerhitungan: hasil,
+            },
+            const data = {
+                statusCode: "200",
+                error: "",
+                message: 'Hitung Luas Persegi',
+                content: {
+                    ...request.payload, hasilPerhitungan: hasil
+                }
+            }
             return h.response(data).code(200)
         },
     },
