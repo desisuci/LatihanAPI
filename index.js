@@ -50,13 +50,13 @@ server.route([
                 panjang: panjangRequest,
                 lebar: lebarRequest,
                 hasilPerhitungan: hasil,
-            },
+            }
             const data = {
                 statusCode: "200",
                 error: "",
                 message: 'Hitung Luas Persegi',
                 content: {
-                    ...request.payload, hasilPerhitungan: hasil
+                    contentData
                 }
             }
             return h.response(data).code(200)

@@ -1,0 +1,12 @@
+npm i -g sequelize-cli
+npm i mysql2 sequelize 
+
+bikin databaseBaru sqlnode
+
+terminal / console
+
+sequelize init
+
+sequelize model:create --name Todos --attributes userId:INTEGER,title:string,desciption:string,dateActivity:DATE,completed:BOOLEAN
+
+sequelize db:migrate
