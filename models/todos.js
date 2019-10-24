@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     dateActivity: DataTypes.DATE,
     completed: DataTypes.BOOLEAN
   }, {});
-  Todos.associate = function(models) {
+  Todos.associate = function (models) {
     // associations can be defined here
   };
   return Todos;

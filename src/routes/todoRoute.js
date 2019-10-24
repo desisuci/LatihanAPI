@@ -1,3 +1,4 @@
+const Joi = require('@hapi/joi');
 const Models = require('../../models/index')
 const todosHandler = async (request, h) => {
     try {
@@ -11,13 +12,14 @@ const todosHandler = async (request, h) => {
 
 const createTodoHandler = async (request, h) => {
     try {
-        const { titleReq, descriptionReq, userIdReq, completedReq } = request.payload
+        const { titleReq, descriptionReq, userIdReq, completedReq, dateReq } = request.payload
         console.log(request.payload);
         const todo = await Models.Todos.create({
             title: titleReq,
-            description: descriptionReq,
+            desciption: descriptionReq,
             userId: userIdReq,
-            completed: completedReq
+            completed: completedReq,
+            dateActivity: dateReq
         })
         return {
             data: todo,
@@ -38,7 +40,7 @@ const updateTodoHandler = async (request, h) => {
             request.payload;
         const todo = await Models.Todos.update({
             title: titleReq,
-            description: descriptionReq,
+            desciption: descriptionReq,
             completed: completedReq,
         }, {
             where: {
@@ -80,7 +82,24 @@ const deleteTodoHandler = async (request, h) => {
 
 module.exports = [
     { method: 'GET', path: '/todos', handler: todosHandler },
-    { method: 'POST', path: '/todo', handler: createTodoHandler },
+
+    {
+        method: 'POST',
+        path: '/todo',
+        config: {
+            validate: {
+                payload: {
+                    titleReq: Joi.required(),
+                    descriptionReq: Joi.required(),
+                    userIdReq: Joi.number().min(1).required(),
+                    completedReq: Joi.number().min(0).max(1).required(),
+                    dateReq: Joi.date().required(),
+                }
+            }
+        },
+        handler: createTodoHandler
+    },
+
     { method: 'PUT', path: '/todo/{id}', handler: updateTodoHandler },
     { method: 'DELETE', path: '/todo/{id}', handler: deleteTodoHandler },
 ];
